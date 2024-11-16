@@ -18,6 +18,7 @@ model User {
   id      String    @id @default(uuid())
   sort_id String    @unique
   name    String    @default("")
+  email   String    @unique
   created DateTime  @default(now())
   updated DateTime  @updatedAt
   deleted DateTime?
