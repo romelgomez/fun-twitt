@@ -3,6 +3,15 @@ package main
 import (
 	"fmt"
 	"funtwitt/config"
+	follow_controller "funtwitt/domain/follow/controller"
+	follow_repository "funtwitt/domain/follow/repository"
+	follow_service "funtwitt/domain/follow/service"
+	timeline_controller "funtwitt/domain/timeline/controller"
+	timeline_repository "funtwitt/domain/timeline/repository"
+	timeline_service "funtwitt/domain/timeline/service"
+	tweet_controller "funtwitt/domain/tweet/controller"
+	tweet_repository "funtwitt/domain/tweet/repository"
+	tweet_service "funtwitt/domain/tweet/service"
 	user_controller "funtwitt/domain/user/controller"
 	user_repository "funtwitt/domain/user/repository"
 	user_service "funtwitt/domain/user/service"
@@ -55,8 +64,23 @@ func main() {
 	userService := user_service.NewUserServiceImpl(userRepository)
 	userController := user_controller.NewController(userService)
 
+	tweetRepo := tweet_repository.NewTweetRepository(db)
+	tweetService := tweet_service.NewTweetService(tweetRepo)
+	tweetController := tweet_controller.NewTweetController(tweetService)
+
+	followRepo := follow_repository.NewFollowRepository(db)
+	followService := follow_service.NewFollowService(followRepo)
+	followController := follow_controller.NewFollowController(followService)
+
+	timelineRepo := timeline_repository.NewTimelineRepository(db)
+	timelineService := timeline_service.NewTimelineService(timelineRepo)
+	timelineController := timeline_controller.NewTimelineController(timelineService)
+
 	routes := router.NewRouter(
 		userController,
+		tweetController,
+		followController,
+		timelineController,
 	)
 
 	allowedOrigins := strings.Split(os.Getenv("CORS_ALLOWED_ORIGINS"), ",")

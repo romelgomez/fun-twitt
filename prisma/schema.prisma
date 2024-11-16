@@ -8,11 +8,34 @@ generator db {
 }
 
 model User {
-  id      String    @id @default(uuid())
-  sort_id String    @unique
-  name    String    @default("")
-  email   String    @unique
-  created DateTime  @default(now())
-  updated DateTime  @updatedAt
-  deleted DateTime?
+  id        String    @id @default(uuid())
+  sort_id   String    @unique
+  name      String    @default("")
+  email     String    @unique
+  created   DateTime  @default(now())
+  updated   DateTime  @updatedAt
+  deleted   DateTime?
+  tweets    Tweet[]
+  followers Follow[]  @relation("Followee")
+  followees Follow[]  @relation("Follower")
+}
+
+model Tweet {
+  id        String   @id @default(uuid())
+  content   String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sortId    String   @unique
+  createdAt DateTime @default(now())
+}
+
+model Follow {
+  id         String   @id @default(uuid())
+  followerId String
+  followeeId String
+  follower   User     @relation("Follower", fields: [followerId], references: [id], onDelete: Cascade)
+  followee   User     @relation("Followee", fields: [followeeId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@unique([followerId, followeeId])
 }
