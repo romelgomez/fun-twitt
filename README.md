@@ -22,9 +22,9 @@ model User {
   updated DateTime  @updatedAt
   deleted DateTime?
 }
-``
+```
 
-add new user example api response 
+Add new user example API response 
 
 ```json
 {
