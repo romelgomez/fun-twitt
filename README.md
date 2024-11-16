@@ -6,10 +6,10 @@ fun-twitt is api mock of twitter/X in golang
 
 db provider: `sqlite`
 
-- users  ~ a model
-- tweets ~ a model 
-- follow ~ a model
-- timeline ~ a query 
+- [X] users  ~ a model
+- [ ] tweets ~ a model 
+- [ ] follow ~ a model
+- [ ] timeline ~ a query 
 
 ## User model
 
