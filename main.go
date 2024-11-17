@@ -66,7 +66,7 @@ func main() {
 
 	tweetRepo := tweet_repository.NewTweetRepository(db)
 	tweetService := tweet_service.NewTweetService(tweetRepo)
-	tweetController := tweet_controller.NewTweetController(tweetService)
+	tweetController := tweet_controller.NewTweetController(tweetService, userService)
 
 	followRepo := follow_repository.NewFollowRepository(db)
 	followService := follow_service.NewFollowService(followRepo)

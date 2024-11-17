@@ -34,7 +34,7 @@ func (c *FollowController) Create(w http.ResponseWriter, r *http.Request, _ http
 }
 
 func (c *FollowController) FindByFollowerID(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
-	followerID := params.ByName("followerID")
+	followerID := params.ByName("id")
 	result, err := c.Service.FindByFollowerID(r.Context(), followerID)
 	helper.Response(w, result, err)
 }
