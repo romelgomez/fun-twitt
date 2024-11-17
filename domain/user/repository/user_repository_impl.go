@@ -67,7 +67,7 @@ func (r *UserRepositoryImpl) FindByID(ctx context.Context, id string) (model.Use
 }
 
 func (r *UserRepositoryImpl) FindBySortID(ctx context.Context, id string) (model.User, error) {
-	record, err := r.Db.User.FindUnique(db.User.ID.Equals(id)).Exec(ctx)
+	record, err := r.Db.User.FindUnique(db.User.SortID.Equals(id)).Exec(ctx)
 	if err != nil {
 		return model.User{}, err
 	}
