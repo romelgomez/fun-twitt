@@ -43,6 +43,22 @@ Add new user example API response
 }
 ```
 
+Add tweet response example
+
+```json
+{
+    "code": 200,
+    "status": "OK",
+    "data": {
+        "id": "496b7fa0-6bbd-4783-9c04-b9887ea1913c",
+        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+        "user_id": "ac176ba7-5a2a-4bd8-8b17-e54059691136",
+        "sort_id": "tweet_bWpai6lxgyMNZlUVbctjvKwc",
+        "created_at": "2024-11-17T04:38:46+00:00"
+    },
+    "message": ""
+}
+```
 
 
 
