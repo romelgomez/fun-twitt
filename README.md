@@ -20,3 +20,25 @@ db provider: `sqlite`
 ## test
 
 `go test ./... -v` 
+
+## Postman Views
+
+### User model
+
+![post_user](images/post_user.png)
+![patch_usert](images/patch_user.png)
+![get_user](images/get_user.png)
+![get_all_user](images/get_all_user.png)
+
+### Tweet model
+
+![post_tweet](images/post_tweet.png)
+![get_tweet_by_user_id](images/get_tweet_by_user_id.png)
+
+### Follow model
+
+![get_follow_follower](images/get_follow_follower.png)
+
+### Timeline query
+
+![get_timeline](images/get_timeline.png)
