@@ -1,5 +1,5 @@
 # fun-twitt
-fun-twitt is api mock of twitter/X in golang
+fun-twitt is a api mock of twitter/X in golang
 
 
 ## models
