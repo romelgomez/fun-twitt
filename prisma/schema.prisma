@@ -16,6 +16,7 @@ enum UserStatus {
 model Shard {
   id        Int      @id @default(autoincrement())
   name      String   @unique
+  capacity  Int      @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   User      User[]
@@ -25,7 +26,7 @@ model Shard {
 
 model User {
   id          String     @id @unique @default(dbgenerated("gen_random_uuid()")) @db.VarChar(100)
-  external_id String     @unique @db.VarChar(150) // User-friendly ID, e.g., user_abcd1234
+  external_id String     @unique @db.VarChar(150)
   name        String     @default("")
   email       String     @unique
   status      UserStatus @default(ACTIVE)
@@ -41,7 +42,7 @@ model User {
 
 model Tweet {
   id          String   @id @unique @default(dbgenerated("gen_random_uuid()")) @db.VarChar(100)
-  external_id String   @unique @db.VarChar(150) // User-friendly ID, e.g., tweet_abcd1234
+  external_id String   @unique @db.VarChar(150)
   content     String
   userId      String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -53,7 +54,7 @@ model Tweet {
 
 model Follow {
   id          String   @id @unique @default(dbgenerated("gen_random_uuid()")) @db.VarChar(100)
-  external_id String   @unique @db.VarChar(150) // User-friendly ID, e.g., follow_abcd1234
+  external_id String   @unique @db.VarChar(150)
   followerId  String
   followeeId  String
   follower    User     @relation("Follower", fields: [followerId], references: [id], onDelete: Cascade)
