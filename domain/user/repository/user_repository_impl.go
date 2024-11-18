@@ -17,13 +17,13 @@ func NewUserRepository(dbClient *db.PrismaClient) UserRepository {
 }
 
 func (r *UserRepositoryImpl) Create(ctx context.Context, data model.User) (model.User, error) {
-	shortID, err := helper.GeneratePrefixedID("user_", 15)
+	id, err := helper.GeneratePrefixedID("user_", 15)
 	if err != nil {
 		return model.User{}, err
 	}
 
 	record, err := r.Db.User.CreateOne(
-		db.User.SortID.Set(shortID),
+		db.User.ID.Set(id),
 		db.User.Email.Set(data.Email),
 		db.User.Name.Set(data.Name),
 	).Exec(ctx)
@@ -66,29 +66,8 @@ func (r *UserRepositoryImpl) FindByID(ctx context.Context, id string) (model.Use
 	}, nil
 }
 
-func (r *UserRepositoryImpl) FindBySortID(ctx context.Context, id string) (model.User, error) {
-	record, err := r.Db.User.FindUnique(db.User.SortID.Equals(id)).Exec(ctx)
-	if err != nil {
-		return model.User{}, err
-	}
-	if record == nil {
-		return model.User{}, errors.New("user not found")
-	}
-
-	return model.User{
-		InnerUser: record.InnerUser,
-	}, nil
-}
-
 func (r *UserRepositoryImpl) Update(ctx context.Context, input model.User) (model.User, error) {
-	id := input.ID
-
-	_, err := r.Db.User.FindUnique(db.User.ID.Equals(id)).Exec(ctx)
-	if err != nil {
-		return model.User{}, err
-	}
-
-	record, err := r.Db.User.FindUnique(db.User.ID.Equals(id)).Update(
+	record, err := r.Db.User.FindUnique(db.User.ID.Equals(input.ID)).Update(
 		db.User.Name.Set(input.Name),
 	).Exec(ctx)
 	if err != nil {

@@ -17,7 +17,7 @@ func NewTimelineController(service service.TimelineService) *TimelineController 
 }
 
 func (c *TimelineController) GetTimeline(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
-	userID := params.ByName("id")
-	result, err := c.Service.GetTimeline(r.Context(), userID)
+	id := params.ByName("id")
+	result, err := c.Service.GetTimeline(r.Context(), id)
 	helper.Response(w, result, err)
 }

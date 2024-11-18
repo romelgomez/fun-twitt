@@ -10,6 +10,6 @@ func NewUserRoutes(router *httprouter.Router, userController *controller.UserCon
 	router.POST("/api/v1/user", userController.Create)
 	router.GET("/api/v1/user", userController.FindAll)
 	router.GET("/api/v1/user/:id", userController.FindByID)
-	router.PATCH("/api/v1/user/:id", userController.Update)
+	router.PATCH("/api/v1/user", userController.Update)
 	router.DELETE("/api/v1/user/:id", userController.Delete)
 }

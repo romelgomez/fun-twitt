@@ -15,9 +15,9 @@ func NewTimelineRepository(dbClient *db.PrismaClient) TimelineRepository {
 	return &TimelineRepositoryImpl{Db: dbClient}
 }
 
-func (r *TimelineRepositoryImpl) GetTimeline(ctx context.Context, userID string) ([]model.Tweet, error) {
+func (r *TimelineRepositoryImpl) GetTimeline(ctx context.Context, id string) ([]model.Tweet, error) {
 	followees, err := r.Db.Follow.FindMany(
-		db.Follow.FollowerID.Equals(userID),
+		db.Follow.FollowerID.Equals(id),
 	).Exec(ctx)
 	if err != nil {
 		return nil, err

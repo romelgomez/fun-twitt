@@ -14,8 +14,8 @@ func NewTimelineService(repo repository.TimelineRepository) TimelineService {
 	return &TimelineServiceImpl{Repo: repo}
 }
 
-func (s *TimelineServiceImpl) GetTimeline(ctx context.Context, userID string) ([]dto.TweetResponse, error) {
-	tweets, err := s.Repo.GetTimeline(ctx, userID)
+func (s *TimelineServiceImpl) GetTimeline(ctx context.Context, id string) ([]dto.TweetResponse, error) {
+	tweets, err := s.Repo.GetTimeline(ctx, id)
 	if err != nil {
 		return nil, err
 	}

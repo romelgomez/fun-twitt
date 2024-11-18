@@ -15,7 +15,6 @@ func (u *User) Dto() dto.UserResponse {
 	return dto.UserResponse{
 		ID:      u.ID,
 		Name:    u.Name,
-		SortID:  u.SortID,
 		Email:   u.Email,
 		Created: *helper.DateTimeToStr(&u.Created),
 		Updated: *helper.DateTimeToStr(&u.Updated),

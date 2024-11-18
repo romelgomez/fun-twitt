@@ -30,8 +30,8 @@ func (s *TweetServiceImpl) Create(ctx context.Context, request dto.TweetCreate) 
 	return tweet.Dto(), nil
 }
 
-func (s *TweetServiceImpl) FindByUserID(ctx context.Context, userID string) ([]dto.TweetResponse, error) {
-	tweets, err := s.Repo.FindByUserID(ctx, userID)
+func (s *TweetServiceImpl) FindByUserID(ctx context.Context, id string) ([]dto.TweetResponse, error) {
+	tweets, err := s.Repo.FindByUserID(ctx, id)
 	if err != nil {
 		return nil, err
 	}

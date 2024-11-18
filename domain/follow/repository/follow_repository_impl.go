@@ -3,6 +3,7 @@ package follow
 import (
 	"context"
 	model "funtwitt/domain/follow/model"
+	"funtwitt/helper"
 	"funtwitt/prisma/db"
 )
 
@@ -15,7 +16,13 @@ func NewFollowRepository(dbClient *db.PrismaClient) FollowRepository {
 }
 
 func (r *FollowRepositoryImpl) Create(ctx context.Context, data model.Follow) (model.Follow, error) {
+	id, err := helper.GeneratePrefixedID("fw_", 20)
+	if err != nil {
+		return model.Follow{}, err
+	}
+
 	record, err := r.Db.Follow.CreateOne(
+		db.Follow.ID.Set(id),
 		db.Follow.Follower.Link(db.User.ID.Equals(data.FollowerID)),
 		db.Follow.Followee.Link(db.User.ID.Equals(data.FolloweeID)),
 	).Exec(ctx)

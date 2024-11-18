@@ -1,6 +1,7 @@
 package account
 
 import (
+	"fmt"
 	dto "funtwitt/domain/user/dto"
 	service "funtwitt/domain/user/service"
 	"funtwitt/helper"
@@ -33,20 +34,18 @@ func (c *UserController) Update(w http.ResponseWriter, r *http.Request, params h
 	var data dto.UserUpdate
 	helper.ReadRequestBody(r, &data)
 
+	fmt.Println("")
+	fmt.Println(data)
+	fmt.Println("")
+
 	result, err := c.Service.Update(r.Context(), data)
 	helper.Response(w, result, err)
 }
 
 func (c *UserController) FindByID(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
 	id := params.ByName("id")
-	var result interface{}
-	var err error
 
-	if !helper.IsUUID(id) {
-		result, err = c.Service.FindBySortID(r.Context(), id)
-	} else {
-		result, err = c.Service.FindByID(r.Context(), id)
-	}
+	result, err := c.Service.FindByID(r.Context(), id)
 
 	helper.Response(w, result, err)
 }

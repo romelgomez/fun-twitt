@@ -24,11 +24,8 @@ func NewTweetController(service service.TweetService, userService user_service.U
 	}
 }
 
-func (c *TweetController) findUser(ctx context.Context, userID string) (user_dto.UserResponse, error) {
-	if helper.IsUUID(userID) {
-		return c.UserService.FindByID(ctx, userID)
-	}
-	return c.UserService.FindBySortID(ctx, userID)
+func (c *TweetController) findUser(ctx context.Context, id string) (user_dto.UserResponse, error) {
+	return c.UserService.FindByID(ctx, id)
 }
 
 func (c *TweetController) Create(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {

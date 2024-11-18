@@ -39,18 +39,10 @@ func (s *UserServiceImpl) FindByID(ctx context.Context, id string) (dto.UserResp
 	return result.Dto(), nil
 }
 
-func (s *UserServiceImpl) FindBySortID(ctx context.Context, id string) (dto.UserResponse, error) {
-	result, err := s.Repo.FindBySortID(ctx, id)
-	if err != nil {
-		return dto.UserResponse{}, err
-	}
-
-	return result.Dto(), nil
-}
-
 func (s *UserServiceImpl) Update(ctx context.Context, request dto.UserUpdate) (dto.UserResponse, error) {
 	user, err := s.Repo.Update(ctx, model.User{
 		InnerUser: db.InnerUser{
+			ID:   request.ID,
 			Name: request.Name,
 		},
 	})

@@ -15,7 +15,6 @@ func (t *Tweet) Dto() dto.TweetResponse {
 		ID:        t.ID,
 		Content:   t.Content,
 		UserID:    t.UserID,
-		SortID:    t.SortID,
 		CreatedAt: *helper.DateTimeToStr(&t.CreatedAt),
 	}
 }

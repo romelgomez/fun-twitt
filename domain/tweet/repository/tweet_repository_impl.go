@@ -16,15 +16,15 @@ func NewTweetRepository(dbClient *db.PrismaClient) TweetRepository {
 }
 
 func (r *TweetRepositoryImpl) Create(ctx context.Context, data model.Tweet) (model.Tweet, error) {
-	shortID, err := helper.GeneratePrefixedID("tweet_", 20)
+	id, err := helper.GeneratePrefixedID("tweet_", 20)
 	if err != nil {
 		return model.Tweet{}, err
 	}
 
 	record, err := r.Db.Tweet.CreateOne(
+		db.Tweet.ID.Set(id),
 		db.Tweet.Content.Set(data.Content),
 		db.Tweet.User.Link(db.User.ID.Equals(data.UserID)),
-		db.Tweet.SortID.Set(shortID),
 	).Exec(ctx)
 	if err != nil {
 		return model.Tweet{}, err
