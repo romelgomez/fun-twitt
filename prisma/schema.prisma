@@ -1,39 +1,68 @@
 datasource db {
-  provider = "sqlite"
-  url      = "file:dev.db"
+  provider = "postgres"
+  url      = env("DATABASE_URL")
 }
 
 generator db {
   provider = "go run github.com/steebchen/prisma-client-go"
 }
 
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+model Shard {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  capacity  Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  User      User[]
+  Tweet     Tweet[]
+  Follow    Follow[]
+}
+
 model User {
-  id        String    @id @unique
-  name      String    @default("")
-  email     String    @unique
-  created   DateTime  @default(now())
-  updated   DateTime  @updatedAt
-  deleted   DateTime?
-  tweets    Tweet[]
-  followers Follow[]  @relation("Followee")
-  followees Follow[]  @relation("Follower")
+  id          String     @id @unique @default(dbgenerated("gen_random_uuid()")) @db.VarChar(100)
+  external_id String     @unique @db.VarChar(150)
+  name        String     @default("")
+  email       String     @unique
+  status      UserStatus @default(ACTIVE)
+  shard_id    Int        @default(1)
+  shard       Shard      @relation(fields: [shard_id], references: [id])
+  created     DateTime   @default(now())
+  updated     DateTime   @updatedAt
+  deleted     DateTime?
+  tweets      Tweet[]
+  followers   Follow[]   @relation("Followee")
+  followees   Follow[]   @relation("Follower")
 }
 
 model Tweet {
-  id        String   @id @unique
-  content   String
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
+  id          String   @id @unique @default(dbgenerated("gen_random_uuid()")) @db.VarChar(100)
+  external_id String   @unique @db.VarChar(150)
+  content     String
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  shard_id    Int      @default(1)
+  shard       Shard    @relation(fields: [shard_id], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Follow {
-  id         String   @id @unique
-  followerId String
-  followeeId String
-  follower   User     @relation("Follower", fields: [followerId], references: [id], onDelete: Cascade)
-  followee   User     @relation("Followee", fields: [followeeId], references: [id], onDelete: Cascade)
-  createdAt  DateTime @default(now())
+  id          String   @id @unique @default(dbgenerated("gen_random_uuid()")) @db.VarChar(100)
+  external_id String   @unique @db.VarChar(150)
+  followerId  String
+  followeeId  String
+  follower    User     @relation("Follower", fields: [followerId], references: [id], onDelete: Cascade)
+  followee    User     @relation("Followee", fields: [followeeId], references: [id], onDelete: Cascade)
+  shard_id    Int      @default(1)
+  shard       Shard    @relation(fields: [shard_id], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@unique([followerId, followeeId])
 }
